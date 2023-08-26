@@ -4,7 +4,7 @@ const login = (email, password) => {
         dispatch({ type: 'LOGIN_REQUEST' });
         const config = {
             headers: { "Content-Type": "application/json" },
-            withCredntials: true
+            withCredentials: true
         };
         try {
             axios.post(`${process.env.REACT_APP_FETCH_DOMAIN}/user/login`, { email, password }, config)
