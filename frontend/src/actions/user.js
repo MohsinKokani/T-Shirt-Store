@@ -6,7 +6,6 @@ const login = (email, password) => {
             headers: { "Content-Type": "application/json" },
             withCredentials: true
         };
-        axios.defaults.withCredentials = true;
         try {
             axios.post(`${process.env.REACT_APP_FETCH_DOMAIN}/user/login`, { email, password }, config)
                 .then(response => {
