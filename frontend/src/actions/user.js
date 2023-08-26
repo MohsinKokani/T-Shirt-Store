@@ -1,50 +1,36 @@
-const config = {
-    headers: {
-        "Content-Type": "application/json"
-    },
-    credentials: "include" // To include cookies
-};
+import axios from "axios";
 const login = (email, password) => {
-    return async (dispatch) => {
+    return (dispatch) => {
         dispatch({ type: 'LOGIN_REQUEST' });
-
-        const data = {
-            email: email,
-            password: password
+        const config = {
+            headers: { "Content-Type": "application/json" },
+            withCredentials: true
         };
-
-        const options = {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            credentials: "include", // To include cookies
-            body: JSON.stringify(data)
-        };
-
-        const url = "https://tshirtstore-api.onrender.com/user/login";
-
+        axios.defaults.withCredentials = true;
         try {
-            const response = await fetch(url, options);
-            const responseData = await response.json();
-
-            if (response.ok) {
-                dispatch({
-                    type: 'LOGIN_SUCCESS',
-                    payload: responseData,
+            axios.post(`${process.env.REACT_APP_FETCH_DOMAIN}/user/login`, { email, password }, config)
+                .then(response => {
+                    dispatch({
+                        type: 'LOGIN_SUCCESS',
+                        payload: response?.data,
+                    });
+                })
+                .catch(error => {
+                    console.log(error)
+                    dispatch({
+                        type: 'LOGIN_FAIL',
+                        payload: error.response?.data || 'Error while login',
+                    });
                 });
-            } else {
-                throw new Error('Failed to login');
-            }
         } catch (error) {
-            console.error(error);
             dispatch({
                 type: 'LOGIN_FAIL',
                 payload: error.message || 'Error while login.',
             });
         }
-    };
-};
+
+    }
+}
 
 const logout = () => {
     return async (dispatch) => {
