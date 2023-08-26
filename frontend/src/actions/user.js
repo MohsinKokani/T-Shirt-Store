@@ -2,10 +2,6 @@ import axios from "axios";
 const login = (email, password) => {
     return (dispatch) => {
         dispatch({ type: 'LOGIN_REQUEST' });
-        const config = {
-            headers: { "Content-Type": "application/json" },
-            withCredentials: true
-        };
         const data = {
             email: email,
             password: password
