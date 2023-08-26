@@ -1,3 +1,9 @@
+const config = {
+    headers: {
+        "Content-Type": "application/json"
+    },
+    credentials: "include" // To include cookies
+};
 const login = (email, password) => {
     return async (dispatch) => {
         dispatch({ type: 'LOGIN_REQUEST' });
