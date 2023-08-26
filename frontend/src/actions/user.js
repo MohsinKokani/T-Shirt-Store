@@ -6,8 +6,22 @@ const login = (email, password) => {
             headers: { "Content-Type": "application/json" },
             withCredentials: true
         };
+        const data = {
+            email: email,
+            password: password
+        };
+        const options = {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include", // To include cookies
+            body: JSON.stringify(data)
+        };
+        const url = "https://tshirtstore-api.onrender.com/user/login";
+
         try {
-            axios.post(`${process.env.REACT_APP_FETCH_DOMAIN}/user/login`, { email, password }, config)
+            fetch(url, options)
                 .then(response => {
                     dispatch({
                         type: 'LOGIN_SUCCESS',
